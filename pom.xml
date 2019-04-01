@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>2.1.2.RELEASE</version>
+		<relativePath /> <!-- lookup parent from repository -->
+	</parent>
+	<groupId>cn.com.ecloud</groupId>
+	<artifactId>ecloud-live</artifactId>
+	<version>1.0</version>
+	<name>ecloud-live</name>
+	<description>Demo project for Spring Boot</description>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<java.version>1.8</java.version>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-webflux</artifactId>
+			<exclusions>
+				<exclusion>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-starter-logging</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-redis-reactive</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-mongodb-reactive</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>io.projectreactor.kafka</groupId>
+			<artifactId>reactor-kafka</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-pool2</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.session</groupId>
+			<artifactId>spring-session-data-redis</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-log4j2</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>fastjson</artifactId>
+			<version>1.2.9</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>io.projectreactor</groupId>
+			<artifactId>reactor-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-configuration-processor</artifactId>
+			<optional>true</optional>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<layout>ZIP</layout>
+					<excludeGroupIds>
+						com.ecloud,
+						org.springframework.boot,
+						io.netty,
+						io.projectreactor,
+						io.projectreactor.netty,
+						org.apache.lucene,
+						org.elasticsearch,
+						org.elasticsearch.plugin,
+						org.elasticsearch.client,
+						org.hdrhistogram,
+						org.hibernate.validator,
+						org.apache.httpcomponents,
+						com.fasterxml.jackson,
+						com.fasterxml.jackson.core,
+						org.thymeleaf,
+						org.thymeleaf.extras,
+						org.projectlombok,
+						org.attoparser,
+						org.unbescape,
+						org.synchronoss.cloud,
+						org.sonatype.oss,
+						com.tdunning,
+						com.fasterxml.jackson.dataformat,
+						com.carrotsearch,
+						com.fasterxml.jackson.module,
+						com.fasterxml.jackson.datatype,
+						javax.annotation,
+						net.sf.jopt-simple,
+						org.sonatype.oss,
+						com.github.spullara.mustache.java,
+						org.reactivestreams,
+						org.yaml,
+						org.aspectj,
+						org.springframework,
+						org.hibernate,
+						org.jboss.logging,
+						org.hibernate.javax.persistence,
+						org.javassist,
+						antlr,
+						org.jboss,
+						dom4j,
+						org.hibernate.common,
+						javax.transaction,
+						org.springframework.data,
+						redis.clients,
+						org.apache.commons,
+						org.springframework.security,
+						javax.validation,
+						com.fasterxml,
+						com.fasterxml.jackson.core,
+						io.undertow,
+						org.jboss.xnio,
+						org.jboss.spec.javax.annotation,
+						org.jboss.spec.javax.websocket,
+						javax.servlet,
+						org.glassfish,
+						com.alibaba,
+						mysql,
+						commons-codec,
+						commons-lang,
+						org.apache.logging.log4j,
+						org.slf4j,
+						org.springframework.session,
+						org.apache.poi,
+						org.apache.xmlbeans,
+						stax,
+						com.github.virtuald,
+						com.vaadin.external.google,
+						joda-time,
+						jaxen,
+						com.belerweb,
+					</excludeGroupIds>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<configuration>
+					<skipTests>true</skipTests>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>

@@ -1,0 +1,24 @@
+
+spring:
+  application:
+    name: ecloud-live
+
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    password: 
+    timeout: 30000
+    lettuce:
+      pool:
+        min-idle: 20
+        max-idle: 100
+        max-active: 300
+        max-wait: 60000
+  data:
+    mongodb:
+      uri: mongodb://127.0.0.1:27017,127.0.0.1:27018/live
+      repositories:
+        type: reactive
+
+logging:
+  config: classpath:log4j2.xml
