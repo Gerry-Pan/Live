@@ -1,4 +1,4 @@
-package cn.com.ecloud.live.config;
+package cn.com.pan.live.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;

@@ -1,4 +1,4 @@
-package cn.com.ecloud.live.config;
+package cn.com.pan.live.config;
 
 import java.nio.charset.Charset;
 import java.util.ArrayList;
@@ -23,7 +23,7 @@ import org.springframework.http.converter.xml.Jaxb2RootElementHttpMessageConvert
 import org.springframework.web.client.RestTemplate;
 
 @Configuration
-@ComponentScan(basePackages = { "cn.com.ecloud" })
+@ComponentScan(basePackages = { "cn.com.pan" })
 public class GlobalConfiguration {
 
 	@Bean(name = "restTemplate")

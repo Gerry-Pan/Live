@@ -1,4 +1,4 @@
-package cn.com.ecloud.live.config;
+package cn.com.pan.live.config;
 
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -50,14 +50,14 @@ import org.springframework.web.server.session.WebSessionIdResolver;
 
 import com.alibaba.fastjson.JSONObject;
 
-import cn.com.ecloud.live.security.MiniServerAuthenticationConverter;
+import cn.com.pan.live.security.MiniServerAuthenticationConverter;
 import lombok.NoArgsConstructor;
 import reactor.core.publisher.Mono;
 
 @Configuration
 @EnableWebFlux
 @EnableWebFluxSecurity
-@EnableRedisWebSession(redisNamespace = "spring:session:cn:ecloud:live", maxInactiveIntervalInSeconds = 1800)
+@EnableRedisWebSession(redisNamespace = "spring:session:cn:pan:live", maxInactiveIntervalInSeconds = 1800)
 @AutoConfigureAfter(value = { GlobalConfiguration.class })
 public class SecurityConfiguration {
 
@@ -251,17 +251,17 @@ public class SecurityConfiguration {
 
 	@Bean
 	public WebSessionIdResolver webSessionIdResolver() {
-		return new EcloudWebSessionIdResolver(this.tokenKey);
+		return new PanWebSessionIdResolver(this.tokenKey);
 	}
 
 	@NoArgsConstructor
-	protected static class EcloudWebSessionIdResolver implements WebSessionIdResolver {
+	protected static class PanWebSessionIdResolver implements WebSessionIdResolver {
 
 		private final CookieWebSessionIdResolver cookieWebSessionIdResolver = new CookieWebSessionIdResolver();
 
 		private final HeaderWebSessionIdResolver headerWebSessionIdResolver = new HeaderWebSessionIdResolver();
 
-		public EcloudWebSessionIdResolver(String tokenKey) {
+		public PanWebSessionIdResolver(String tokenKey) {
 			headerWebSessionIdResolver.setHeaderName(tokenKey);
 		}
 

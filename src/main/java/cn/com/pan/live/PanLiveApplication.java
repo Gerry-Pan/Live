@@ -1,13 +1,13 @@
-package cn.com.ecloud.live;
+package cn.com.pan.live;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class EcloudLiveApplication {
+public class PanLiveApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(EcloudLiveApplication.class, args);
+		SpringApplication.run(PanLiveApplication.class, args);
 	}
 
 }

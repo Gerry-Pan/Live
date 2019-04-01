@@ -1,4 +1,4 @@
-package cn.com.ecloud.live.config;
+package cn.com.pan.live.config;
 
 import java.util.Arrays;
 
@@ -61,7 +61,7 @@ public class KafkaConfiguration {
 		producerProperties.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, Arrays.asList(bootstrapServers));
 		producerProperties.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, IntegerSerializer.class);
 		producerProperties.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
-		producerProperties.put(ProducerConfig.TRANSACTIONAL_ID_CONFIG, "ecloudLiveTransactionId");
+		producerProperties.put(ProducerConfig.TRANSACTIONAL_ID_CONFIG, "panLiveTransactionId");
 
 		SenderOptions<Integer, String> senderOptions = SenderOptions.create(producerProperties);
 		KafkaSender<Integer, String> kafkaSender = KafkaSender.create(senderOptions);

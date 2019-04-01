@@ -1,4 +1,4 @@
-package cn.com.ecloud.live.controller;
+package cn.com.pan.live.controller;
 
 import java.util.Properties;
 

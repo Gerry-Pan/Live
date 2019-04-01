@@ -1,4 +1,4 @@
-package cn.com.ecloud.live.config;
+package cn.com.pan.live.config;
 
 import java.util.HashMap;
 import java.util.Map;

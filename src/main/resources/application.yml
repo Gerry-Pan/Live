@@ -1,7 +1,7 @@
 
 spring:
   application:
-    name: ecloud-live
+    name: pan-live
 
   redis:
     host: 127.0.0.1

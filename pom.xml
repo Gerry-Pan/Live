@@ -9,10 +9,10 @@
 		<version>2.1.2.RELEASE</version>
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>cn.com.ecloud</groupId>
-	<artifactId>ecloud-live</artifactId>
+	<groupId>cn.com.pan</groupId>
+	<artifactId>pan-live</artifactId>
 	<version>1.0</version>
-	<name>ecloud-live</name>
+	<name>pan-live</name>
 	<description>Demo project for Spring Boot</description>
 
 	<properties>
@@ -107,7 +107,7 @@
 				<configuration>
 					<layout>ZIP</layout>
 					<excludeGroupIds>
-						com.ecloud,
+						cn.com.pan,
 						org.springframework.boot,
 						io.netty,
 						io.projectreactor,

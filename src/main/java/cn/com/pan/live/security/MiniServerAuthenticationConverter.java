@@ -1,4 +1,4 @@
-package cn.com.ecloud.live.security;
+package cn.com.pan.live.security;
 
 import java.net.URI;
 
