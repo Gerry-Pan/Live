@@ -28,6 +28,6 @@ Spring boot 2.1.2.RELEASE + Netty,reactive security,reactive mongodb,reactive we
   <li>live-1.0.jar</li>
 </ul>
 
-## --spring.config.location指定的可以是绝对路径也可以是classpath中的路径，--cluster.node.id指定节点编号  
-java -Dloader.path=lib -jar live-1.0.jar --server.port=8080 --server.servlet.context-path=/live --cluster.node.id=0 --spring.config.location=file:config/application.yml,file:config/global.properties --logging.config=file:config/log4j2.xml  
+<code>java -Dloader.path=lib -jar live-1.0.jar --server.port=8080 --server.servlet.context-path=/live --cluster.node.id=0 --spring.config.location=file:config/application.yml,file:config/global.properties --logging.config=file:config/log4j2.xml</code>
 
+注：--spring.config.location指定的可以是绝对路径也可以是classpath中的路径，--cluster.node.id指定节点编号  
