@@ -46,15 +46,13 @@ public class WebSocketConfiguration {
 			session.receive().map(WebSocketMessage::getPayloadAsText).subscribe(messageProcessor::onNext,
 					messageProcessor::onError, messageProcessor::onComplete);
 
-			return session
-					.send(outputMessages.filter((payload) -> this.filterUser(session, payload))
-							.map((payload) -> this.generateMessage(session, payload)))
-					.and(session.getHandshakeInfo().getPrincipal().flatMap((p) -> {
-						session.getAttributes().put("username", p.getName());
-						return Mono.empty();
-					}).switchIfEmpty(Mono.defer(() -> {
-						return Mono.error(new BadCredentialsException("Bad Credentials."));
-					})).then());
+			return session.getHandshakeInfo().getPrincipal().flatMap((p) -> {
+				session.getAttributes().put("username", p.getName());
+				return session.send(outputMessages.filter((payload) -> this.filterUser(session, payload))
+						.map((payload) -> this.generateMessage(session, payload)));
+			}).switchIfEmpty(Mono.defer(() -> {
+				return Mono.error(new BadCredentialsException("Bad Credentials."));
+			})).then();
 		};
 	}
 
