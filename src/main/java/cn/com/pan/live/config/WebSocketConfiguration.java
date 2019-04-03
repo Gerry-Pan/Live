@@ -85,26 +85,4 @@ public class WebSocketConfiguration {
 		return session.textMessage(payload);
 	}
 
-	protected static class WebSocketMessageSubscriber<T> {
-
-		private UnicastProcessor<T> messageProcessor;
-
-		public WebSocketMessageSubscriber(UnicastProcessor<T> messageProcessor) {
-			this.messageProcessor = messageProcessor;
-		}
-
-		public void onNext(T message) {
-			messageProcessor.onNext(message);
-		}
-
-		public void onError(Throwable t) {
-			messageProcessor.onError(t);
-		}
-
-		public void onComplete() {
-			messageProcessor.onComplete();
-		}
-
-	}
-
 }
