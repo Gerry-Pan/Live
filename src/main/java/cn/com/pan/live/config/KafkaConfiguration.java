@@ -76,7 +76,9 @@ public class KafkaConfiguration {
 
 		Flux<ReceiverRecord<Integer, String>> outputMessages = Flux.from(kafkaProcessor.replay(0).autoConnect());
 
-		kafkaReceiver.receive().subscribe(kafkaProcessor::onNext, kafkaProcessor::onError, kafkaProcessor::onComplete);
+		kafkaReceiver.receive().subscribe(kafkaProcessor::onNext, (e) -> {
+			e.printStackTrace();
+		});
 
 		kafkaSender.sendTransactionally(outputMessages.map(receiverRecord -> {
 			System.out.println(receiverRecord);

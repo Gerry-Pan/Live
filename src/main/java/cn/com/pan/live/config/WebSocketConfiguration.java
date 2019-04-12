@@ -43,8 +43,9 @@ public class WebSocketConfiguration {
 		return (session) -> {
 			System.out.println(session);
 
-			session.receive().map(WebSocketMessage::getPayloadAsText).subscribe(messageProcessor::onNext,
-					messageProcessor::onError, messageProcessor::onComplete);
+			session.receive().map(WebSocketMessage::getPayloadAsText).subscribe(messageProcessor::onNext, (e) -> {
+				e.printStackTrace();
+			});
 
 			return session.getHandshakeInfo().getPrincipal().flatMap((p) -> {
 				session.getAttributes().put("username", p.getName());
