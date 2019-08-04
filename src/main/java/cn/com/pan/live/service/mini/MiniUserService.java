@@ -12,13 +12,23 @@ import org.springframework.web.server.ServerWebExchange;
 
 import com.alibaba.fastjson.JSONObject;
 
+import cn.com.pan.kafka.annotation.ReactiveKafkaListener;
 import cn.com.pan.live.entity.mini.Mini;
 import cn.com.pan.live.entity.mini.MiniUserSessionKey;
 import cn.com.pan.live.service.LiveService;
 import reactor.core.publisher.Mono;
+import reactor.kafka.receiver.ReceiverRecord;
 
 @Service
 public class MiniUserService extends LiveService {
+	
+	@ReactiveKafkaListener(topics = "receive")
+	public Mono<Void> receive(ReceiverRecord<String, String> receiverRecord) {
+	  System.out.println(receiverRecord);
+
+	  receiverRecord.receiverOffset().acknowledge();
+	  return Mono.empty();
+	}
 
 	public Mono<JSONObject> signTicket(JSONObject requestBody, ServerWebExchange exchange) {
 		JSONObject result = new JSONObject();

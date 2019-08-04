@@ -16,7 +16,8 @@ import org.springframework.web.reactive.socket.server.support.WebSocketHandlerAd
 
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-import reactor.core.publisher.UnicastProcessor;
+import reactor.core.publisher.TopicProcessor;
+import reactor.util.concurrent.Queues;
 
 @Configuration
 public class WebSocketConfiguration {
@@ -25,8 +26,8 @@ public class WebSocketConfiguration {
 	private String webSocketHandlerPath;
 
 	@Bean
-	public UnicastProcessor<String> messageProcessor() {
-		return UnicastProcessor.create();
+	public TopicProcessor<String> messageProcessor() {
+		return TopicProcessor.create("messageProcessor", Queues.SMALL_BUFFER_SIZE);
 	}
 
 	@Bean
@@ -36,7 +37,7 @@ public class WebSocketConfiguration {
 
 	@Bean
 	public WebSocketHandler webSocketHandler() {
-		UnicastProcessor<String> messageProcessor = this.messageProcessor();
+		TopicProcessor<String> messageProcessor = this.messageProcessor();
 		Flux<String> messages = messageProcessor.replay(0).autoConnect();
 		Flux<String> outputMessages = Flux.from(messages);
 

@@ -22,7 +22,6 @@ import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.ReactiveMongoTemplate;
 import org.springframework.data.redis.core.ReactiveRedisTemplate;
-import org.springframework.stereotype.Service;
 import org.springframework.util.ReflectionUtils;
 import org.springframework.web.reactive.function.client.WebClient;
 
@@ -36,7 +35,6 @@ import cn.com.pan.live.util.algorithm.PKCS7Encoder;
 import reactor.core.publisher.Mono;
 import reactor.core.publisher.TopicProcessor;
 
-@Service
 public class LiveService {
 
 	protected final Logger log = LogManager.getLogger(getClass());

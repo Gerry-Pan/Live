@@ -23,6 +23,12 @@
 
 	<dependencies>
 		<dependency>
+			<groupId>cn.com.pan</groupId>
+			<artifactId>pan-reactive-kafka</artifactId>
+			<version>1.0</version>
+		</dependency>
+
+		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-webflux</artifactId>
 			<exclusions>
