@@ -1,10 +1,7 @@
 package cn.com.pan.live.config;
 
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -23,12 +20,7 @@ import org.springframework.security.authentication.UserDetailsRepositoryReactive
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
 import org.springframework.security.config.web.server.SecurityWebFiltersOrder;
 import org.springframework.security.config.web.server.ServerHttpSecurity;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.MapReactiveUserDetailsService;
 import org.springframework.security.core.userdetails.ReactiveUserDetailsService;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.server.SecurityWebFilterChain;
 import org.springframework.security.web.server.ServerAuthenticationEntryPoint;
@@ -61,9 +53,6 @@ import reactor.core.publisher.Mono;
 @AutoConfigureAfter(value = { GlobalConfiguration.class })
 public class SecurityConfiguration {
 
-	@Value(value = "${rtmpPath}")
-	private String rtmpPath;
-
 	@Value(value = "${tokenKey}")
 	private String tokenKey;
 
@@ -80,13 +69,7 @@ public class SecurityConfiguration {
 		String contextPath = serverProperties.getServlet().getContextPath();
 
 		ServerAuthenticationEntryPoint authenticationEntryPoint = (exchange, e) -> {
-			ServerHttpRequest request = exchange.getRequest();
 			ServerHttpResponse response = exchange.getResponse();
-
-			if (request.getPath().value().replace(contextPath, "").startsWith(rtmpPath)) {
-				response.setStatusCode(HttpStatus.INTERNAL_SERVER_ERROR);
-				return Mono.empty();
-			}
 
 			JSONObject result = new JSONObject();
 			result.put("code", -2);
@@ -99,13 +82,7 @@ public class SecurityConfiguration {
 		};
 
 		ServerAccessDeniedHandler accessDeniedHandler = (exchange, e) -> {
-			ServerHttpRequest request = exchange.getRequest();
 			ServerHttpResponse response = exchange.getResponse();
-
-			if (request.getPath().value().replace(contextPath, "").startsWith(rtmpPath)) {
-				response.setStatusCode(HttpStatus.INTERNAL_SERVER_ERROR);
-				return Mono.empty();
-			}
 
 			JSONObject result = new JSONObject();
 			result.put("code", -3);
@@ -223,26 +200,6 @@ public class SecurityConfiguration {
 	}
 
 	@Bean
-	public ReactiveUserDetailsService userDetailsService() {
-		Map<String, UserDetails> users = new HashMap<String, UserDetails>();
-
-		GrantedAuthority grantedAuthority = new SimpleGrantedAuthority("AUTHENTICATION");
-		List<GrantedAuthority> grantedAuthorities = new ArrayList<GrantedAuthority>();
-		grantedAuthorities.add(grantedAuthority);
-
-		UserDetails admin = new User("admin", "{MD5}60e6872dafa737587b8f2146ee51e55f", true, true, true, true,
-				grantedAuthorities);
-
-		UserDetails pan = new User("pan", "{MD5}60e6872dafa737587b8f2146ee51e55f", true, true, true, true,
-				grantedAuthorities);
-
-		users.put("pan", pan);
-		users.put("admin", admin);
-
-		return new MapReactiveUserDetailsService(users);
-	}
-
-	@Bean
 	public ReactiveAuthenticationManager authenticationManager(ReactiveUserDetailsService userDetailsService) {
 		UserDetailsRepositoryReactiveAuthenticationManager authenticationManager = new UserDetailsRepositoryReactiveAuthenticationManager(
 				userDetailsService);
@@ -251,17 +208,17 @@ public class SecurityConfiguration {
 
 	@Bean
 	public WebSessionIdResolver webSessionIdResolver() {
-		return new PanWebSessionIdResolver(this.tokenKey);
+		return new CustomWebSessionIdResolver(this.tokenKey);
 	}
 
 	@NoArgsConstructor
-	protected static class PanWebSessionIdResolver implements WebSessionIdResolver {
+	protected static class CustomWebSessionIdResolver implements WebSessionIdResolver {
 
 		private final CookieWebSessionIdResolver cookieWebSessionIdResolver = new CookieWebSessionIdResolver();
 
 		private final HeaderWebSessionIdResolver headerWebSessionIdResolver = new HeaderWebSessionIdResolver();
 
-		public PanWebSessionIdResolver(String tokenKey) {
+		public CustomWebSessionIdResolver(String tokenKey) {
 			headerWebSessionIdResolver.setHeaderName(tokenKey);
 		}
 

@@ -6,26 +6,24 @@ import org.springframework.web.server.ServerWebExchange;
 
 import com.alibaba.fastjson.JSONObject;
 
-import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 @RestController
 public class ManageController extends BaseController {
 
 	@RequestMapping(path = "index")
-	public Flux<JSONObject> index(ServerWebExchange exchange) {
-
+	public Mono<JSONObject> index(ServerWebExchange exchange) {
 		JSONObject result = new JSONObject();
 
-		result.put("code", 1);
-		result.put("message", "index ok");
+		return exchange.getSession().map(session -> {
+			String openid = session.getAttribute("currentOpenid");
 
-		System.out.println("index");
-		System.out.println("index-----" + Thread.currentThread().getName());
+			result.put("code", 1);
+			result.put("message", "index ok");
+			result.put("openid", openid);
 
-		return exchange.getPrincipal().map((p) -> {
-			System.out.println(p.getName());
-			System.out.println("index---22222-----" + Thread.currentThread().getName());
 			return result;
-		}).flux();
+		});
 	}
+	
 }
