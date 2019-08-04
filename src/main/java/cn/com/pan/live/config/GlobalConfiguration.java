@@ -50,10 +50,10 @@ public class GlobalConfiguration {
 	public Properties miniProperties() throws Exception {
 		ClassPathResource r = new ClassPathResource("mini.properties");
 
-		Properties bizcodeProperties = new Properties();
-		bizcodeProperties.load(r.getInputStream());
+		Properties miniProperties = new Properties();
+		miniProperties.load(r.getInputStream());
 
-		return bizcodeProperties;
+		return miniProperties;
 	}
 
 }
