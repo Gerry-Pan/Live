@@ -1,7 +1,10 @@
 package cn.com.pan.live.config;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
+import java.util.Set;
 
 import org.springframework.boot.autoconfigure.web.reactive.function.client.WebClientCodecCustomizer;
 import org.springframework.boot.web.codec.CodecCustomizer;
@@ -17,6 +20,7 @@ import org.springframework.http.codec.json.Jackson2JsonDecoder;
 import org.springframework.http.codec.json.Jackson2JsonEncoder;
 import org.springframework.web.reactive.function.client.WebClient;
 
+import com.alibaba.fastjson.JSONObject;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Configuration
@@ -54,6 +58,27 @@ public class GlobalConfiguration {
 		miniProperties.load(r.getInputStream());
 
 		return miniProperties;
+	}
+
+	/**
+	 * 只有code=1时是正确码，其余全是错误码
+	 * 
+	 * @return
+	 * @throws Exception
+	 */
+	@Bean(name = "errorMap")
+	public Map<Integer, String> errorMap() throws Exception {
+		ClassPathResource r = new ClassPathResource("error.json");
+		Map<Integer, String> errorMap = new HashMap<Integer, String>();
+
+		JSONObject o = JSONObject.parseObject(r.getInputStream(), JSONObject.class);
+
+		Set<String> keySet = o.keySet();
+		for (String key : keySet) {
+			errorMap.put(Integer.parseInt(key), o.getString(key));
+		}
+
+		return errorMap;
 	}
 
 }

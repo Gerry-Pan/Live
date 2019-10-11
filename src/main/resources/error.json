@@ -1,0 +1,11 @@
+{
+	"1": "ok",
+	"-1": "System error",
+	"-2": "No Token or Token has been expired",
+	"-3": "Access Denied",
+	"-4": "Username or Password wrong",
+	"-5": "系统繁忙请稍后重试",
+	"-6": "未知标识",
+	"-7": "%s",
+	"-8": "%s不能为空"
+}

@@ -2,6 +2,7 @@ package cn.com.pan.live.config;
 
 import java.nio.charset.StandardCharsets;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -42,6 +43,7 @@ import org.springframework.web.server.session.WebSessionIdResolver;
 
 import com.alibaba.fastjson.JSONObject;
 
+import cn.com.pan.live.enumerate.ErrorCode;
 import cn.com.pan.live.security.MiniServerAuthenticationConverter;
 import lombok.NoArgsConstructor;
 import reactor.core.publisher.Mono;
@@ -65,15 +67,15 @@ public class SecurityConfiguration {
 	@Bean
 	public SecurityWebFilterChain springSecurityFilterChain(ServerHttpSecurity http,
 			ReactiveAuthenticationManager authenticationManager,
-			MiniServerAuthenticationConverter miniServerAuthenticationConverter) {
+			MiniServerAuthenticationConverter miniServerAuthenticationConverter, Map<Integer, String> errorMap) {
 		String contextPath = serverProperties.getServlet().getContextPath();
 
 		ServerAuthenticationEntryPoint authenticationEntryPoint = (exchange, e) -> {
 			ServerHttpResponse response = exchange.getResponse();
 
 			JSONObject result = new JSONObject();
-			result.put("code", -2);
-			result.put("message", "No Token or Token has been expired");
+			result.put("code", ErrorCode.CODE2);
+			result.put("message", errorMap.get(ErrorCode.CODE2));
 
 			DataBuffer wrap = response.bufferFactory().wrap(result.toString().getBytes(StandardCharsets.UTF_8));
 
@@ -85,8 +87,8 @@ public class SecurityConfiguration {
 			ServerHttpResponse response = exchange.getResponse();
 
 			JSONObject result = new JSONObject();
-			result.put("code", -3);
-			result.put("message", e.getMessage());
+			result.put("code", ErrorCode.CODE3);
+			result.put("message", errorMap.get(ErrorCode.CODE3));
 
 			DataBuffer wrap = response.bufferFactory().wrap(result.toString().getBytes(StandardCharsets.UTF_8));
 
@@ -99,8 +101,8 @@ public class SecurityConfiguration {
 
 			return exchange.getSession().flatMap(session -> {
 				JSONObject result = new JSONObject();
-				result.put("code", 1);
-				result.put("message", "ok");
+				result.put("code", ErrorCode.OK);
+				result.put("message", errorMap.get(ErrorCode.OK));
 				result.put(this.tokenKey, session.getId());
 
 				DataBuffer wrap = response.bufferFactory().wrap(result.toString().getBytes(StandardCharsets.UTF_8));
@@ -118,15 +120,13 @@ public class SecurityConfiguration {
 
 			String message = "";
 
-			if (e instanceof BadCredentialsException) {
-				message = "username or password wrong";
-			} else if (e instanceof UsernameNotFoundException) {
-				message = "username not exist";
+			if (e instanceof BadCredentialsException || e instanceof UsernameNotFoundException) {
+				message = errorMap.get(ErrorCode.CODE4);
 			} else {
 				message = e.getMessage();
 			}
 
-			result.put("code", -4);
+			result.put("code", ErrorCode.CODE4);
 			result.put("message", message);
 
 			DataBuffer wrap = response.bufferFactory().wrap(result.toString().getBytes(StandardCharsets.UTF_8));
@@ -187,8 +187,8 @@ public class SecurityConfiguration {
 
 					JSONObject result = new JSONObject();
 
-					result.put("code", 1);
-					result.put("message", "logout success");
+					result.put("code", ErrorCode.OK);
+					result.put("message", errorMap.get(ErrorCode.OK));
 
 					DataBuffer wrap = response.bufferFactory().wrap(result.toString().getBytes(StandardCharsets.UTF_8));
 

@@ -5,6 +5,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.Arrays;
+import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -46,6 +47,8 @@ public class LiveService {
 	@Autowired
 	protected Properties miniProperties;
 	@Autowired
+	protected Map<Integer, String> errorMap;
+	@Autowired
 	protected TopicProcessor<String> messageProcessor;
 	@Autowired
 	protected ReactiveMongoTemplate reactiveMongoTemplate;
@@ -54,11 +57,36 @@ public class LiveService {
 
 	private final ConcurrentMap<String, MiniInvokeHandler> handlerRepository = new ConcurrentHashMap<String, MiniInvokeHandler>();
 
-	public Mono<JSONObject> switchIfEmpty(Integer code, String message) {
+	protected Mono<JSONObject> withMono(Integer code, Object... args) {
+		String message = null;
+		String s = errorMap.get(code);
+
+		if (args == null || args.length == 0) {
+			message = s;
+		} else {
+			message = String.format(s, args);
+		}
+
 		JSONObject result = new JSONObject();
 		result.put("code", code);
 		result.put("message", message);
 		return Mono.just(result);
+	}
+
+	protected JSONObject withoutMono(Integer code, Object... args) {
+		String message = null;
+		String s = errorMap.get(code);
+
+		if (args == null || args.length == 0) {
+			message = s;
+		} else {
+			message = String.format(s, args);
+		}
+
+		JSONObject result = new JSONObject();
+		result.put("code", code);
+		result.put("message", message);
+		return result;
 	}
 
 	public MiniInvokeHandler getMiniInvokeHandler(Mini mini) {

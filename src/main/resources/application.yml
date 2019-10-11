@@ -16,7 +16,7 @@ spring:
         max-wait: 60000
   data:
     mongodb:
-      uri: mongodb://127.0.0.1:27017,127.0.0.1:27018/live
+      uri: mongodb://127.0.0.1:27017/live
       repositories:
         type: reactive
 
